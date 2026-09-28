@@ -1,0 +1,110 @@
+/*
+ * Owns the FORM layout: how fields sit relative to each other, and where the
+ * submit button goes at each breakpoint.
+ *
+ * The page shell (background, card, max-width, page padding) is owned by the
+ * feature — see features/lead/LeadFormPage.module.css.
+ *
+ * Breakpoints mirror design-system/tokens/breakpoints.ts:
+ *   mobile  < 768px   one column, sticky submit
+ *   desktop >= 1024px two columns
+ * 768-1023px inherits the mobile layout, as the brief allows.
+ */
+
+.form {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  /* minmax(0, 1fr) rather than 1fr: grid tracks default to min-content,
+     which lets a long unbroken string widen the column and overflow. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+}
+
+.half,
+.full {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .half {
+    grid-column: span 1;
+  }
+
+  .full {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Shown only after a blocked submit, so every outstanding error is
+   reachable in one place and announced to screen readers. */
+.summary {
+  margin-top: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: var(--font-size-sm);
+}
+
+.summaryTitle {
+  font-weight: var(--font-weight-bold);
+}
+
+.summaryList {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-4);
+}
+
+.summaryList li {
+  overflow-wrap: anywhere;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+/* Layout is the form's job, so the width of the action button is set here
+   rather than passed in at the call site. Full width on a phone, where it
+   is a thumb target in a sticky bar; its natural width on a desktop, left
+   aligned with the form's leading edge. */
+.actions > * {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .actions > * {
+    width: auto;
+    min-width: 11rem;
+  }
+}
+
+/* Phone: the submit button stays reachable at the bottom of the viewport.
+   `sticky` rather than `fixed` so it still occupies flow and can never
+   cover the last field. --form-gutter lets the page bleed the bar out to
+   its own padding without this file knowing the page's dimensions. */
+@media (max-width: 767px) {
+  .actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    margin-top: var(--space-5);
+    margin-left: calc(var(--form-gutter, 0px) * -1);
+    margin-right: calc(var(--form-gutter, 0px) * -1);
+    padding: var(--space-3) var(--form-gutter, 0px);
+    padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sticky);
+  }
+}

@@ -1,0 +1,76 @@
+.row {
+  /* Contains the visually-hidden input below. Without it the absolutely
+     positioned input resolves against a distant ancestor, which can make
+     the page jump when it takes focus. */
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+}
+
+.row.disabled {
+  cursor: not-allowed;
+  color: var(--color-disabled-text);
+}
+
+/* The native input stays in the accessibility tree and keeps keyboard
+   behaviour; it is visually replaced by .box below. */
+.native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.box {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  background: var(--color-surface);
+  border: var(--control-border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: background-color 120ms ease, border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.row:hover .box {
+  border-color: var(--color-border-strong);
+}
+
+.native:focus-visible + .box {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.native:checked + .box {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* Tick mark, drawn with a rotated border so no icon library is needed. */
+.native:checked + .box::after {
+  content: '';
+  display: block;
+  width: 0.3125rem;
+  height: 0.625rem;
+  margin: 0.125rem auto 0;
+  border-right: 2px solid var(--color-primary-contrast);
+  border-bottom: 2px solid var(--color-primary-contrast);
+  transform: rotate(45deg);
+}
+
+.invalid .box {
+  border-color: var(--color-danger);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}

@@ -1,0 +1,88 @@
+/*
+ * Owns the PAGE shell: background, gutters, max width, the card, and the
+ * header. The arrangement of fields inside the form and the sticky submit
+ * bar are owned by design-system/form/DynamicForm.module.css.
+ */
+
+.page {
+  min-height: 100dvh;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+}
+
+.container {
+  width: 100%;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: var(--space-5);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+.subtitle {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.card {
+  /* Consumed by the form's sticky action bar so it can bleed out to the
+     card's own padding without this file's values leaking into it. */
+  --form-gutter: var(--space-4);
+
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.result {
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.resultTitle {
+  margin: 0 0 var(--space-3);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.resultBody {
+  margin: 0;
+  padding: var(--space-3);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-normal);
+  /* Long values scroll inside the panel instead of widening the page. */
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding: var(--space-7) var(--space-5);
+  }
+
+  .card {
+    --form-gutter: var(--space-6);
+    padding: var(--space-6);
+  }
+
+  .header {
+    margin-bottom: var(--space-6);
+  }
+}
